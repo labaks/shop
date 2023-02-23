@@ -126,7 +126,7 @@ body {
 .shopCart {
   position: absolute;
   width: 300px;
-  padding: 50px 30px;
+  padding: 30px;
   background: #ddd;
   right: 0;
   top: 20px;
@@ -138,10 +138,39 @@ body {
   margin-bottom: 20px;
 }
 
-.shopCart .cartTitles {
+.shopCart .cartTitles,
+.shopCart .cartItem {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.shopCart .cartTitles {
   font-weight: 600;
+}
+
+.shopCart .cartItemInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shopCart .cartItemInfo img {
+  width: 40px;
+}
+
+.shopCart .removeCartItem {
+  color: rgb(255, 72, 72);
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 500ms ease;
+}
+
+.shopCart .removeCartItem:hover {
+  transform: scale(1.3);
 }
 
 .shopCart .buyButton {

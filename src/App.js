@@ -12,10 +12,10 @@ function App() {
         <Route path='/'
           element={<MainPage />}>
           <Route index element={<ShopItems />} />
-          <Route path='/profile' element={<NotFound />}/>
+          <Route path='/profile' element={<NotFound />} />
         </Route>
       </Routes>
-    </div >
+    </div>
   );
 }
 
