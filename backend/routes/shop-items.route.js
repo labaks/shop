@@ -28,11 +28,11 @@ recordRoutes.route("/shop-items").get(function (req, res) {
 });
 
 // This section will help you get a single record by id
-recordRoutes.route("/record/:id").get(function (req, res) {
+recordRoutes.route("/shop-items/:id").get(function (req, res) {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId(req.params.id) };
     db_connect
-        .collection("records")
+        .collection(shopItems)
         .findOne(myquery, function (err, result) {
             if (err) throw err;
             res.json(result);
@@ -55,21 +55,22 @@ recordRoutes.route("/shop-items/add-item").post(function (req, response) {
 });
 
 // This section will help you update a record by id.
-recordRoutes.route("/update/:id").post(function (req, response) {
+recordRoutes.route("/shop-items/:id").post(function (req, response) {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId(req.params.id) };
     let newvalues = {
         $set: {
             name: req.body.name,
-            position: req.body.position,
-            level: req.body.level,
+            img: req.body.img,
+            price: req.body.price,
+            description: req.body.description
         },
     };
     db_connect
-        .collection("records")
+        .collection(shopItems)
         .updateOne(myquery, newvalues, function (err, res) {
             if (err) throw err;
-            console.log("1 document updated");
+            console.log("1 item updated");
             response.json(res);
         });
 });
@@ -78,9 +79,9 @@ recordRoutes.route("/update/:id").post(function (req, response) {
 recordRoutes.route("/:id").delete((req, response) => {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId(req.params.id) };
-    db_connect.collection("records").deleteOne(myquery, function (err, obj) {
+    db_connect.collection(shopItems).deleteOne(myquery, function (err, obj) {
         if (err) throw err;
-        console.log("1 document deleted");
+        console.log("1 item deleted");
         response.json(obj);
     });
 });
