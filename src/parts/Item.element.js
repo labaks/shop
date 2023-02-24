@@ -11,7 +11,7 @@ export const Item = (props) => {
                 src={props.info.img}
                 alt={props.info.name} />
             <p className="itemName">{props.info.name}</p>
-            <p className="itemPrice">price: {props.info.price.toFixed(2)}$</p>
+            <p className="itemPrice">price: {Number(props.info.price).toFixed(2)}$</p>
             <span className="itemDescription">{props.info.description}</span>
             <button
                 className="addToCart"
