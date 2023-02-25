@@ -15,7 +15,7 @@ export const ShopCart = (props) => {
                 props.cart.map((e) => (
                     <div
                         className="cartItem"
-                        key={e.id}>
+                        key={e._id}>
                         <div className="cartItemInfo">
                             <img
                                 className="itemImage"
@@ -23,7 +23,7 @@ export const ShopCart = (props) => {
                                 alt={e.name} />
                             {e.name}
                         </div>
-                        <span>{e.price.toFixed(2)}$</span>
+                        <span>{Number(e.price).toFixed(2)}$</span>
                         <button
                             className="removeCartItem"
                             onClick={() => props.removeCartItem(e.id)}>

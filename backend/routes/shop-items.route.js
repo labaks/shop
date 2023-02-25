@@ -46,7 +46,9 @@ recordRoutes.route("/shop-items/add-item").post(function (req, response) {
         name: req.body.name,
         img: req.body.img,
         price: req.body.price,
-        description: req.body.description
+        size: req.body.size,
+        description: req.body.description,
+        discount: req.body.discount
     };
     db_connect.collection(shopItems).insertOne(myobj, function (err, res) {
         if (err) throw err;
@@ -76,7 +78,7 @@ recordRoutes.route("/shop-items/:id").post(function (req, response) {
 });
 
 // This section will help you delete a record
-recordRoutes.route("/:id").delete((req, response) => {
+recordRoutes.route("/delete-item/:id").delete((req, response) => {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId(req.params.id) };
     db_connect.collection(shopItems).deleteOne(myquery, function (err, obj) {
