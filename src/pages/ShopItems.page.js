@@ -35,22 +35,22 @@ export const ShopItems = () => {
     };
 
     const addToCart = (id) => {
-        if (shopCart.find((item) => item.id === id)) {
+        if (shopCart.find((item) => item._id === id)) {
             console.log("already exist");
             return;
         }
-        let item = items.find((item) => item.id === id);
+        let item = items.find((item) => item._id === id);
         updateShopCart(shopCart => [...shopCart, item]);
     };
 
     const removeCartItem = (id) => {
-        updateShopCart(shopCart.filter(item => item.id !== id));
+        updateShopCart(shopCart.filter(item => item._id !== id));
     };
 
     useEffect(() => {
         let total = 0;
         for (let item of shopCart) {
-            total += Number(item.price);
+            total += item.price;
         }
         setTotalPrice(total);
         localStorage.setItem("shopCart", JSON.stringify(shopCart));

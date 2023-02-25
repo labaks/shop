@@ -121,7 +121,7 @@ export const UpsertItem = (props) => {
                                 onChange={(event) => {
                                     handleFormValueChange(
                                         'price',
-                                        event.target.value
+                                        Number(event.target.value)
                                     )
                                 }}
                             />

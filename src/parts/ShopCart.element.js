@@ -23,10 +23,10 @@ export const ShopCart = (props) => {
                                 alt={e.name} />
                             {e.name}
                         </div>
-                        <span>{Number(e.price).toFixed(2)}$</span>
+                        <span>{e.price.toFixed(2)}$</span>
                         <button
                             className="removeCartItem"
-                            onClick={() => props.removeCartItem(e.id)}>
+                            onClick={() => props.removeCartItem(e._id)}>
                             <FontAwesomeIcon icon={faTrashCan} />
                         </button>
                     </div>
