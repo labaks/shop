@@ -13,6 +13,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 const dbName = "shop";
 const shopItems = "shop-items";
+const orders = "orders";
 
 
 // This section will help you get a list of all the records.
@@ -86,6 +87,43 @@ recordRoutes.route("/delete-item/:id").delete((req, response) => {
         if (err) throw err;
         console.log("1 item deleted");
         response.json(obj);
+    });
+});
+
+recordRoutes.route("/orders").get(function (req, res) {
+    let db_connect = dbo.getDb(dbName);
+    db_connect
+        .collection(orders)
+        .find({})
+        .toArray(function (err, result) {
+            if (err) throw err;
+            res.json(result);
+        });
+});
+
+recordRoutes.route("/orders/:id").get(function (req, res) {
+    let db_connect = dbo.getDb();
+    let myquery = { _id: ObjectId(req.params.id) };
+    db_connect
+        .collection(orders)
+        .findOne(myquery, function (err, result) {
+            if (err) throw err;
+            res.json(result);
+        });
+});
+
+recordRoutes.route("/orders/add-order").post(function (req, response) {
+    let db_connect = dbo.getDb();
+    let myobj = {
+        name: req.body.name,
+        surname: req.body.surname,
+        phone: req.body.phone,
+        address: req.body.address,
+        cart: req.body.cart
+    };
+    db_connect.collection(orders).insertOne(myobj, function (err, res) {
+        if (err) throw err;
+        response.json(res);
     });
 });
 

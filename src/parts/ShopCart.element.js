@@ -5,6 +5,11 @@ import { faCartShopping, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import defaultImg from "../images/t-shirt.png"
 
 export const ShopCart = (props) => {
+
+    const makeOrder = () => {
+        props.navigate('order');
+    };
+
     return (
         <div className="shopCart">
             <p>Cart <FontAwesomeIcon icon={faCartShopping} /></p>
@@ -38,7 +43,8 @@ export const ShopCart = (props) => {
                     }
                     <button
                         className="buyButton"
-                        disabled={props.cart.length === 0}>Order for <b className="total">{props.totalPrice.toFixed(2)}$</b></button>
+                        disabled={props.cart.length === 0}
+                        onClick={makeOrder}>Order for <b className="total">{props.totalPrice.toFixed(2)}$</b></button>
                 </div>
             }
             {props.cart.length === 0 &&

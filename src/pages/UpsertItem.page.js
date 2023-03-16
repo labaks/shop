@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Select from 'react-select';
 
-import { _shopItemAdd, _shopItemEdit, _shopItemGetById } from "../services/dataLodaer.service";
+import { _shopItemAdd, _shopItemEdit, _shopItemGetById } from "../services/dataLoader.service";
 import { FormData } from "../services/formData.service";
 
 export const UpsertItem = (props) => {

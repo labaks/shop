@@ -36,6 +36,26 @@ export const _shopItemDelete = async (id) => {
     return await _delete("", `delete-item/${id}`);
 };
 
+export const _ordersGet = async () => {
+    return await _get("", "orders");
+};
+
+export const _orderGetById = async (id) => {
+    return await _get('', `orders/${id}`);
+};
+
+export const _makeOrder = async (data) => {
+    const dataToSend = {
+        name: data.name,
+        surname: data.surname,
+        phone: data.phone,
+        address: data.address,
+        cart: data.cart
+    };
+    console.log(dataToSend)
+    return await _fetch('', dataToSend, 'orders/add-order');
+};
+
 const _get = async (token, route) => {
     try {
         const response = await fetch(url + route, {

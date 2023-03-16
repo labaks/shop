@@ -1,22 +1,26 @@
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
-import { _shopItemDelete, _shopItemGet } from "../services/dataLodaer.service";
+import { _ordersGet, _shopItemDelete, _shopItemGet } from "../services/dataLoader.service";
 
 export const AdminPage = () => {
 
     const [items, setItems] = useState([]);
+    const [orders, setOrders] = useState([]);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [itemToDelete, setItemToDelete] = useState({});
 
     useEffect(() => {
         getItems();
+        getOrders();
     }, []);
 
     const getItems = async () => {
@@ -25,6 +29,15 @@ export const AdminPage = () => {
             console.log("---error:", result.error);
         } else {
             setItems(result);
+        }
+    };
+
+    const getOrders = async () => {
+        let result = await _ordersGet();
+        if (result.error) {
+            console.log("---error:", result.error);
+        } else {
+            setOrders(result);
         }
     };
 
@@ -46,13 +59,23 @@ export const AdminPage = () => {
         )
     };
 
+    const showOrderFormatter = (cell, row) => {
+        return (
+            <div className="iconColumn">
+                <Link className='tableIconBtn' to={`/orders/${cell}`}>
+                    <FontAwesomeIcon icon={faEye} />
+                </Link>
+            </div>
+        )
+    };
+
     const handleDeleteItem = async (id) => {
         await _shopItemDelete(id);
         getItems();
         setShowDeleteDialog(false);
     };
 
-    const columns = [
+    const itemsColumns = [
         {
             dataField: 'img',
             text: 'Image',
@@ -78,6 +101,33 @@ export const AdminPage = () => {
         }
     ];
 
+    const ordersColumns = [
+        {
+            dataField: 'name',
+            text: 'Name',
+            sort: true
+        },
+        {
+            dataField: 'surname',
+            text: 'Surname',
+            sort: true
+        },
+        {
+            dataField: 'phone',
+            text: 'Phone',
+        },
+        {
+            dataField: 'address',
+            text: 'Address',
+        },
+        {
+            dataField: '_id',
+            text: 'Show',
+            classes: 'iconColumn',
+            formatter: showOrderFormatter
+        },
+    ];
+
     const defaultSorted = [
         {
             dataField: 'name',
@@ -85,26 +135,53 @@ export const AdminPage = () => {
         }
     ];
 
-    const noData = () => {
+    const noItems = () => {
         return <p className='emptyTableMessage'>You have no items yet! Create it</p>
+    };
+
+    const noOrders = () => {
+        return <p className='emptyTableMessage'>You have no orders yet :(</p>
     };
 
     return (
         <div className="adminPage">
-            <div className='myTable'>
-                <div className='tableHeader'>
-                    <Link className='mainBtn btn' to={'/create-item'}>Create Item</Link>
-                </div>
-                <BootstrapTable
-                    keyField='_id'
-                    data={items}
-                    columns={columns}
-                    wrapperClasses='table-responsive'
-                    bordered={false}
-                    pagination={paginationFactory()}
-                    defaultSorted={defaultSorted}
-                    noDataIndication={noData} />
-            </div>
+            <Tabs>
+                <TabList>
+                    <Tab>Items</Tab>
+                    <Tab>Orders</Tab>
+                </TabList>
+                <TabPanel>
+                    <div className='myTable'>
+                        <div className='tableHeader'>
+                            <Link className='mainBtn btn' to={'/create-item'}>Create Item</Link>
+                        </div>
+                        <BootstrapTable
+                            keyField='_id'
+                            data={items}
+                            columns={itemsColumns}
+                            wrapperClasses='table-responsive'
+                            bordered={false}
+                            pagination={paginationFactory()}
+                            defaultSorted={defaultSorted}
+                            noDataIndication={noItems} />
+                    </div>
+                </TabPanel>
+                <TabPanel>
+                    <div className='myTable'>
+                        <div className='tableHeader'>
+                        </div>
+                        <BootstrapTable
+                            keyField='_id'
+                            data={orders}
+                            columns={ordersColumns}
+                            wrapperClasses='table-responsive'
+                            bordered={false}
+                            pagination={paginationFactory()}
+                            defaultSorted={defaultSorted}
+                            noDataIndication={noOrders} />
+                    </div>
+                </TabPanel>
+            </Tabs>
             <Modal
                 show={showDeleteDialog}
                 onHide={() => setShowDeleteDialog(false)}

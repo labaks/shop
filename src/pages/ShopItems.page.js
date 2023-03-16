@@ -5,9 +5,9 @@ import React, { useEffect, useState } from "react";
 import { Item } from "../parts/Item.element";
 import { ShopCart } from "../parts/ShopCart.element";
 
-import { _shopItemGet } from "../services/dataLodaer.service";
+import { _shopItemGet } from "../services/dataLoader.service";
 
-export const ShopItems = () => {
+export const ShopItems = (props) => {
 
     const [isShowCart, setIsChowCart] = useState(false);
     const [shopCart, updateShopCart] = useState([]);
@@ -71,7 +71,8 @@ export const ShopItems = () => {
                     <ShopCart
                         cart={shopCart}
                         removeCartItem={removeCartItem}
-                    totalPrice={totalPrice} />
+                        totalPrice={totalPrice}
+                        navigate={props.navigate} />
                 }
                 <button
                     className="shopCartButton"
