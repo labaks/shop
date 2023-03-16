@@ -14,7 +14,7 @@ export const MainPage = () => {
                     <img src="logo192.png" alt="logo" />
                 </Link>
                 <div className="headerRightBlock">
-                    <Link className="profileLink" to={'/profile'}>
+                    <Link className="profileLink" to={'office'}>
                         <span className='userName marginR10'>{userName}</span>
                         <FontAwesomeIcon icon={faUser} />
                     </Link>

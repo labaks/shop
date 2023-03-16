@@ -65,6 +65,7 @@ recordRoutes.route("/shop-items/:id").post(function (req, response) {
             name: req.body.name,
             img: req.body.img,
             price: req.body.price,
+            size: req.body.size,
             description: req.body.description
         },
     };

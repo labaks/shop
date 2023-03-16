@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { _shopItemAdd, _shopItemEdit, _shopItemGetById } from "../services/dataLodaer.service";
+import Select from 'react-select';
 
+import { _shopItemAdd, _shopItemEdit, _shopItemGetById } from "../services/dataLodaer.service";
 import { FormData } from "../services/formData.service";
 
 export const UpsertItem = (props) => {
@@ -17,24 +18,50 @@ export const UpsertItem = (props) => {
     });
     let params = useParams();
 
+    let sizes = [
+        {
+            label: 'XS',
+            value: 'xs'
+        },
+        {
+            label: 'S',
+            value: 's'
+        },
+        {
+            label: 'M',
+            value: 'm'
+        },
+        {
+            label: 'L',
+            value: 'l'
+        },
+        {
+            label: 'XL',
+            value: 'xl'
+        }
+    ];
+
     useEffect(() => {
         if (props.edit) {
             handleItemGet();
         }
-    }, []);
+    //eslint-disable-next-line
+    }, [props]);
 
     const handleItemGet = async () => {
         let result = await _shopItemGetById(params.id);
         if (result.error) {
             console.log("--error:", result.error);
         } else {
+            console.log("result", result);
+            let size = sizes.find((e) => e.value === result.size);
             setFormValues({
-                'name': result.name,
-                'img': result.img,
-                'price': result.price,
-                'size': result.size,
-                'description': result.description,
-                'discount': result.discount || 0
+                name: result.name,
+                img: result.img,
+                price: result.price,
+                size: size,
+                description: result.description,
+                discount: result.discount || 0
             });
         }
         setError(result.error);
@@ -52,7 +79,7 @@ export const UpsertItem = (props) => {
         if (result.error) {
             setError(result.error);
         } else {
-            props.navigate('/office');
+            props.navigate('office');
         }
     };
 
@@ -76,13 +103,14 @@ export const UpsertItem = (props) => {
                                 className={`formInput shortInput`}
                                 placeholder="Name your item"
                                 value={formValues.name}
-                                onChange={(event) => {
-                                    handleFormValueChange(
-                                        'name',
-                                        event.target.value
-                                    )
-                                }}
-                            />
+                                onChange={
+                                    (event) => {
+                                        handleFormValueChange(
+                                            'name',
+                                            event.target.value
+                                        )
+                                    }
+                                } />
                         </div>
                     </div>
                     <div className="mb-3">
@@ -132,17 +160,19 @@ export const UpsertItem = (props) => {
                             className='inputLabel requiredInput'
                             htmlFor='size'>Size</label>
                         <div className='inputWrapper'>
-                            <input
+                            <Select
                                 id='size'
                                 name='size'
                                 type="text"
-                                className={`formInput shortInput`}
+                                className={`shortInput customSelect`}
+                                classNamePrefix='select'
                                 placeholder="Item Size"
+                                options={sizes}
                                 value={formValues.size}
-                                onChange={(event) => {
+                                onChange={(selectedOption) => {
                                     handleFormValueChange(
                                         'size',
-                                        event.target.value
+                                        selectedOption
                                     )
                                 }}
                             />

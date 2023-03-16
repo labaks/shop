@@ -1,7 +1,7 @@
 let url = "http://localhost:5000/";
 
 export const _shopItemGet = async () => {
-    return await _get("", "shop-items/");
+    return await _get("", "shop-items");
 };
 
 export const _shopItemGetById = async (id) => {
@@ -13,7 +13,7 @@ export const _shopItemAdd = async (data) => {
         name: data.name,
         img: data.img,
         price: data.price,
-        size: data.size,
+        size: data.size.value,
         description: data.description,
         discount: data.discount || 0
     };
@@ -25,7 +25,7 @@ export const _shopItemEdit = async (data, id) => {
         name: data.name,
         img: data.img,
         price: data.price,
-        size: data.size,
+        size: data.size.value,
         description: data.description,
         discount: data.discount || 0
     };

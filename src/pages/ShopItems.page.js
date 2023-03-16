@@ -1,4 +1,4 @@
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 
@@ -66,15 +66,21 @@ export const ShopItems = () => {
                         onClick={addToCart} />
                 ))
             }
-            {isShowCart &&
-                <ShopCart
-                    cart={shopCart}
-                    removeCartItem={removeCartItem}
+            <div className="shopCartWrapper">
+                {isShowCart &&
+                    <ShopCart
+                        cart={shopCart}
+                        removeCartItem={removeCartItem}
                     totalPrice={totalPrice} />
-            }
-            <button
-                className="shopCartButton"
-                onClick={showCart}><FontAwesomeIcon icon={faCartShopping} /></button>
+                }
+                <button
+                    className="shopCartButton"
+                    onClick={showCart}><FontAwesomeIcon icon={!isShowCart ? faCartShopping : faXmark} />
+                    {(shopCart.length > 0 && !isShowCart) &&
+                        <span className="cartCounter">{shopCart.length}</span>
+                    }
+                </button>
+            </div>
         </div>
     )
 }
